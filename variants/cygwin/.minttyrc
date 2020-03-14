@@ -1,0 +1,41 @@
+#
+# .minttyrc - Configuration for mintty terminal (used by Cygwin)
+#
+
+Transparency=off
+Font=Lucida Console
+FontHeight=10
+# Disable audible bell
+BellType=0
+BellFlash=yes
+
+# Disable scrollbar
+Scrollbar=none
+# Dimensions (add extra columns for vim line numbering)
+Columns=84
+Rows=25
+# Give some extra space around terminal
+Padding=1
+
+# Colors
+BackgroundColour=50,50,50
+ForegroundColour=203,223,226
+CursorColour=203,223,226
+
+Black=28,40,52
+BoldBlack=71,100,129
+Red=192,57,43
+BoldRed=241,89,72
+Green=39,174,96
+BoldGreen=52,230,127
+Yellow=243,156,18
+BoldYellow=241,206,63
+Blue=41,128,185
+BoldBlue=82,171,230
+Magenta=142,68,173
+BoldMagenta=195,112,229
+Cyan=18,128,117
+BoldCyan=60,229,216
+White=189,195,199
+BoldWhite=225,229,230
+Term=xterm-256color

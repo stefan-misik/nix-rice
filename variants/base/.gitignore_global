@@ -1,0 +1,17 @@
+# Ignore temporary files
+*~
+
+# Ignore temporary word documents
+~$*.doc?
+~$*.xls?
+~$*.ppt?
+
+# Mac specific files
+.DS_Store
+
+# Windows specific files
+desktop.ini
+
+# Vim swap files
+*.swp
+
