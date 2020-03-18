@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CONFIG_HOME
+
+# Compositor with transparency
+xcompmgr &
+# Set the wallpaper
+xwallpaper --zoom ~/.config/wall.png &
+# Default cursor
+xsetroot -cursor_name left_ptr
+

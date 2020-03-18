@@ -1,0 +1,6 @@
+[bar/default]
+modules-right = date
+
+[module/date]
+type = internal/date
+date = %y-%m-%d%
