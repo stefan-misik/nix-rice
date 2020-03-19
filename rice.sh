@@ -15,6 +15,8 @@ print_help ()
     echo "  -a          Add the file into the rice"
     echo "  -p PARENT   In combination with -a adds a difference of the"
     echo "              file to the file in the configuration variant PARENT"
+    echo "  -l DEST     In combination with -c link all undefined files in"
+    echo "              DEST to files in VARIANT"
     echo "  -v          Verbose mode"
     echo ""
     echo "If no files are listed after the last switch, the command will try"
@@ -34,7 +36,7 @@ make_file ()
     then
         mkdir -p "`dirname "$1/$3"`"
         cp -p "variants/$2/$3" "$1/$3"
-    elif ls "variants/$2/$3."*.diff  >/dev/null 2>&1
+    elif ls "variants/$2/$3."*.diff >/dev/null 2>&1
     then
         make_file "$1" "`ls "variants/$2/$3."*.diff | \
              awk -F . '{print $(NF-1)}'`" "$3"
@@ -112,18 +114,20 @@ clear_temp ()
 # Default values
 variant="base"
 parent=""
+link=""
 action="get"
 file_list=""
 verbose=""
 
 # Handle option arguments
-while getopts ":h :a :c: :p: :v" OPT
+while getopts ":h :a :c: :p: :l: :v" OPT
 do
     case $OPT in
         h) action="help" ;;
         a) action="add" ;;
         c) variant="$OPTARG" ;;
         p) parent="$OPTARG" ;;
+        l) link="$OPTARG" ; action="link" ;;
         v) verbose="yes" ;;
        \?) echo "Invalid option: -$OPTARG" >&2; exit 1 ;;
         :) echo "Option -$OPTARG requires an argument." >&2; exit 1 ;;
@@ -166,5 +170,23 @@ case $action in
                 add_diff "$install_prefix" "$variant" "$file" "$parent"
             done
         fi
+    ;;
+
+    link)
+        ensure_variant_exists "$variant"
+        populate_file_list "$@"
+        for file in $file_list
+        do
+            if [ ! -f "variants/$link/$file" ]
+            then
+                if ls "variants/$link/$file."*.diff >/dev/null 2>&1
+                then
+                    true
+                else
+                    [ -z "$verbose" ] || echo "Adding diff $file"
+                    touch "variants/$link/$file.$variant.diff"
+                fi
+            fi
+        done
     ;;
 esac
