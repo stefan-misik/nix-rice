@@ -1,7 +1,14 @@
-34,35c34,36
-< # 'open' command
-< alias open='open'
----
-> # 'open' command for cygwin
-> alias open='cygstart'
-> alias sudo='cygstart -a runas'
+--- base
++++ cygwin
+@@ -31,8 +31,9 @@
+ alias ls='ls --color=auto'
+ # Calendar alias
+ alias cal='cal -m --week -3'
+-# 'open' command
+-alias open='open'
++# 'open' command for cygwin
++alias open='cygstart'
++alias sudo='cygstart -a runas'
+ 
+ 
+ ## EXPORTS

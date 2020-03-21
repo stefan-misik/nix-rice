@@ -69,7 +69,8 @@ add_diff ()
     mkdir -p "$(dirname "variants/$2/$3")"
     make_file "$temp_dir" "$4" "$3"
     rm -f "variants/$2/$3."*.diff
-    diff -a "$temp_dir/$3" "$1/$3" > "variants/$2/$3.$4.diff"
+    diff -au --label "$4" --label "$2" \
+        "$temp_dir/$3" "$1/$3" > "variants/$2/$3.$4.diff"
     true # Discard the exit status of 'diff' command
 }
 
