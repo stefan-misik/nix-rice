@@ -17,6 +17,8 @@ print_help ()
     echo "              file to the file in the configuration variant PARENT"
     echo "  -l DEST     In combination with -c link all undefined files in"
     echo "              DEST to files in VARIANT"
+    echo "  -d          Show diff of the files in the system to the specified"
+    echo "              configuration variant to the"
     echo "  -v          Verbose mode"
     echo ""
     echo "If no files are listed after the last switch, the command will try"
@@ -120,14 +122,15 @@ file_list=""
 verbose=""
 
 # Handle option arguments
-while getopts ":h :a :c: :p: :l: :v" OPT
+while getopts ":a :c: :d :h :l: :p: :v" OPT
 do
     case $OPT in
-        h) action="help" ;;
         a) action="add" ;;
         c) variant="$OPTARG" ;;
-        p) parent="$OPTARG" ;;
+        d) action="diff" ;;
+        h) action="help" ;;
         l) link="$OPTARG" ; action="link" ;;
+        p) parent="$OPTARG" ;;
         v) verbose="yes" ;;
        \?) echo "Invalid option: -$OPTARG" >&2; exit 1 ;;
         :) echo "Option -$OPTARG requires an argument." >&2; exit 1 ;;
@@ -188,5 +191,16 @@ case $action in
                 fi
             fi
         done
+    ;;
+
+    diff)
+        ensure_variant_exists "$variant"
+        populate_file_list "$@"
+        for file in $file_list
+        do
+            make_file "$temp_dir" "$variant" "$file"
+            git --no-pager -c color.ui=always diff --no-index \
+                "$temp_dir/$file" "$install_prefix/$file"
+        done | less -RFX
     ;;
 esac

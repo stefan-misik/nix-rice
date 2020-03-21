@@ -7,6 +7,7 @@ configurations I use. This script can do following:
 * Store and restore the configuration files
 * Store and restore diffs of configuration files relative to some other
   configuration variant
+* Show difference of the system files to the stored in configuration variant
 
 
 ## Usage
@@ -21,6 +22,10 @@ Usage: ./rice.sh [-v] [-c VARIANT] [FILE1] [FILE2] ...
   -a          Add the file into the rice
   -p PARENT   In combination with -a adds a difference of the
               file to the file in the configuration variant PARENT
+  -l DEST     In combination with -c link all undefined files in
+              DEST to files in VARIANT
+  -d          Show diff of the files in the system to the specified
+              configuration variant to the
   -v          Verbose mode
 
 If no files are listed after the last switch, the command will try
