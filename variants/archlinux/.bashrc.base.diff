@@ -1,0 +1,4 @@
+26a27,29
+> # 'open' command for Linux
+> alias open='xdg-open'
+> 

@@ -24,18 +24,6 @@ else
 	alias ls='ls --color=auto'
 fi
 
-# 'open' command for cygwin
-if [[ "${UNAMESTR}" == "Darwin" ]] ; then
-    alias open='open'
-elif [[ "$(expr substr ${UNAMESTR} 1 6)" == "CYGWIN" ]] ; then
-	alias open='cygstart'
-	alias sudo='cygstart -a runas'
-else
-	if [[ "${UNAMESTR}" == "Linux" ]] ; then
-		alias open='xdg-open'
-	fi
-fi
-
 # Calendar alias
 alias cal='cal -m --week -3'
 
