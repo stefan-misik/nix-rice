@@ -2,13 +2,13 @@
 
 sxhkd &
 
-polybar default &
+polybar main &
 
 
 # Rename the window manager to fix behavior of some applications
 wmname compiz
 
-bspc monitor -d I II III IV V VI VII VIII IX X
+bspc monitor -d 1 2 3 4
 
 bspc config border_width         2
 bspc config window_gap          12
@@ -20,5 +20,4 @@ bspc config gapless_monocle      true
 bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a Chromium desktop='^2'
 bspc rule -a mplayer2 state=floating
-bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
