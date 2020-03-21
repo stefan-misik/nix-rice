@@ -1,0 +1,13 @@
+31c31
+< alias ls='ls --color=auto'
+---
+> alias ls='ls -G'
+43a44,45
+> # Set colors to GNU-like look
+> export LSCOLORS=ExGxFxdxCxdxdxabagacac
+46a49,53
+> # Bash completion on macOS
+> if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
+>     . /opt/local/etc/profile.d/bash_completion.sh
+> fi
+> 

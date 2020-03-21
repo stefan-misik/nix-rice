@@ -27,22 +27,8 @@ PROMPT_COMMAND=set_bash_prompt
 
 ## ALIASES
 
-UNAMESTR=`uname`
-if [[ "${UNAMESTR}" == "FreeBSD" ]] || \
-[[ "${UNAMESTR}" == "Darwin" ]] ; then
-    # Set colored LS output
-    alias ls='ls -G'
-    # Set colors to GNU-like look
-    export LSCOLORS=ExGxFxdxCxdxdxabagacac
-    # Bash completion on macOS
-    if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
-        . /opt/local/etc/profile.d/bash_completion.sh
-    fi
-else
-    # Set colored LS output
-    alias ls='ls --color=auto'
-fi
-
+# Set colored LS output
+alias ls='ls --color=auto'
 # Calendar alias
 alias cal='cal -m --week -3'
 # 'open' command
@@ -55,3 +41,6 @@ alias open='open'
 export CLICOLOR=1
 # Set the default editor
 export EDITOR=vim
+
+
+## OTHER
