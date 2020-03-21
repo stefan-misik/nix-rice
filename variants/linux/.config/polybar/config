@@ -88,7 +88,7 @@ label-empty-padding = 2
 
 [module/cpu]
 type = internal/cpu
-interval = 5
+interval = 2
 format-prefix = " "
 format-underline = ${colors.red}
 label = %percentage:3:3%%
