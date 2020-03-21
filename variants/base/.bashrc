@@ -8,43 +8,48 @@
 # Activate VI mode
 set -o vi
 
+
+## PROMPT
+
+set_bash_prompt ()
+{
+    [ $? -eq 0 ] &&
+        PROMPT_SYMBOL="\$" ||
+        PROMPT_SYMBOL="\[\033[1;31m\]\$\[\e[0m\]"
+
+    PS1="\[\033[1;32m\][\[\e[0m\]\
+\u@\h \[\033[1;34m\]\W\
+\[\033[1;32m\]]\[\e[0m\]\
+${PROMPT_SYMBOL} "
+}
+PROMPT_COMMAND=set_bash_prompt
+
+
+## ALIASES
+
 UNAMESTR=`uname`
 if [[ "${UNAMESTR}" == "FreeBSD" ]] || \
 [[ "${UNAMESTR}" == "Darwin" ]] ; then
-	# Set colored LS output
-	alias ls='ls -G'
-	# Set colors to GNU-like look
-	export LSCOLORS=ExGxFxdxCxdxdxabagacac
+    # Set colored LS output
+    alias ls='ls -G'
+    # Set colors to GNU-like look
+    export LSCOLORS=ExGxFxdxCxdxdxabagacac
     # Bash completion on macOS
     if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
         . /opt/local/etc/profile.d/bash_completion.sh
     fi
 else
-	# Set colored LS output
-	alias ls='ls --color=auto'
+    # Set colored LS output
+    alias ls='ls --color=auto'
 fi
 
 # Calendar alias
 alias cal='cal -m --week -3'
 
+
+## EXPORTS
+
 # Turn on CLI colors
 export CLICOLOR=1
-
 # Set the default editor
 export EDITOR=vim
-
-# Bash prompt function
-function set_bash_prompt()
-{
-	if [ $? -eq 0 ] ; then
-		PROMPT_SYMBOL="\$"
-	else
-		PROMPT_SYMBOL="\[\033[1;31m\]\$\[\e[0m\]"
-	fi
-
-	PS1="\[\033[1;32m\][\[\e[0m\]\u@\h \[\033[1;34m\]\W\[\033[1;32m\]]\[\e[0m\]${PROMPT_SYMBOL} "	
-	
-	
-}
-PROMPT_COMMAND=set_bash_prompt
-
