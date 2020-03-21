@@ -4,7 +4,7 @@ XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CONFIG_HOME
 
 # Compositor with transparency
-xcompmgr &
+compton &
 # Set the wallpaper
 xwallpaper --zoom ~/.config/wall.png &
 # Default cursor
