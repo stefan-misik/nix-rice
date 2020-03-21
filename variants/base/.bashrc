@@ -45,6 +45,8 @@ fi
 
 # Calendar alias
 alias cal='cal -m --week -3'
+# 'open' command
+alias open='open'
 
 
 ## EXPORTS

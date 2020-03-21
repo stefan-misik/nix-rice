@@ -1,4 +1,6 @@
-26a27,29
+48,49c48,49
+< # 'open' command
+< alias open='open'
+---
 > # 'open' command for Linux
 > alias open='xdg-open'
-> 

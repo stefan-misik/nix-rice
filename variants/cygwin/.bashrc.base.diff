@@ -1,5 +1,7 @@
-26a27,30
+48,49c48,50
+< # 'open' command
+< alias open='open'
+---
 > # 'open' command for cygwin
 > alias open='cygstart'
 > alias sudo='cygstart -a runas'
-> 
