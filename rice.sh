@@ -199,8 +199,14 @@ case $action in
         for file in $file_list
         do
             make_file "$temp_dir" "$variant" "$file"
-            git --no-pager -c color.ui=always diff --no-index \
-                "$temp_dir/$file" "$install_prefix/$file"
+            if [ -f "$install_prefix/$file" ]
+            then
+                git --no-pager -c color.ui=always diff --no-index \
+                    "$temp_dir/$file" "$install_prefix/$file"
+            else
+                git --no-pager -c color.ui=always diff --no-index \
+                    "$temp_dir/$file" /dev/null
+            fi
         done | less -RFX
     ;;
 esac
