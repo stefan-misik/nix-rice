@@ -36,13 +36,13 @@ make_file ()
 {
     if [ -f "variants/$2/$3" ]
     then
-        mkdir -p "`dirname "$1/$3"`"
+        mkdir -p "$(dirname "$1/$3")"
         cp -p "variants/$2/$3" "$1/$3"
     elif ls "variants/$2/$3."*.diff >/dev/null 2>&1
     then
-        make_file "$1" "`ls "variants/$2/$3."*.diff | \
-             awk -F . '{print $(NF-1)}'`" "$3"
-        patch -s "$1/$3" < "`ls "variants/$2/$3."*.diff`"
+        make_file "$1" "$(ls "variants/$2/$3."*.diff | \
+             awk -F . '{print $(NF-1)}')" "$3"
+        patch -s "$1/$3" < "$(ls "variants/$2/$3."*.diff)"
     else
         echo "Configuration $3 not found in variant $2"
         exit 1
@@ -55,7 +55,7 @@ make_file ()
 # $3 File to add
 add_file ()
 {
-    mkdir -p "`dirname "variants/$2/$3"`"
+    mkdir -p "$(dirname "variants/$2/$3")"
     cp -p "$1/$3" "variants/$2/$3"
 }
 
@@ -66,7 +66,7 @@ add_file ()
 # $4 Parent configuration variant
 add_diff ()
 {
-    mkdir -p "`dirname "variants/$2/$3"`"
+    mkdir -p "$(dirname "variants/$2/$3")"
     make_file "$temp_dir" "$4" "$3"
     rm -f "variants/$2/$3."*.diff
     diff -a "$temp_dir/$3" "$1/$3" > "variants/$2/$3.$4.diff"
@@ -87,8 +87,8 @@ populate_file_list ()
     else
     IFS='
 '
-        for file in `find variants/$variant -type f | \
-            sed "s/variants\/$variant\///;s/\.[^\.]*\.diff$//"`
+        for file in $(find "variants/$variant" -type f | \
+            sed "s/variants\/$variant\///;s/\.[^\.]*\.diff$//")
         do
             file_list="${file_list:+${file_list}:}$file"
         done
