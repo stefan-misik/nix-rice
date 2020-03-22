@@ -1,3 +1,4 @@
+dash
 openssh
 xorg
 xorg-xinit
@@ -5,6 +6,7 @@ materia-gtk-theme
 ttf-linux-libertine
 ttf-inconsolata
 bspwm
+wmname
 sxhkd
 xcompmgr
 xwallpaper
