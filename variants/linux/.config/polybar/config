@@ -60,7 +60,7 @@ tray-background = ${colors.background}
 
 [module/start]
 type = custom/text
-content = %{F#1793d1}%{F-}
+content = "%{F#1793d1}%{F-} "
 
 
 [module/bspwm]
