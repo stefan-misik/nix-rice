@@ -74,7 +74,6 @@ label-focused-padding = 2
 
 label-occupied = %index%
 label-occupied-background = ${colors.background-alt}
-label-occupied-underline= ${colors.gray}
 label-occupied-padding = 2
 
 label-urgent = %index%
@@ -89,7 +88,7 @@ label-empty-padding = 2
 type = internal/xwindow
 label = %title:0:60:...%
 label-padding = 2
-format-underline = ${colors.blue}
+format-underline = ${colors.foreground}
 
 
 [module/cpu]
