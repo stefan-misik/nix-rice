@@ -15,6 +15,14 @@ super + Escape
 	pkill -USR1 -x sxhkd
 
 #
+# applications
+#
+
+# browser
+super + b
+	xdg-open https://duckduckgo.com/
+
+#
 # bspwm hotkeys
 #
 
@@ -84,25 +92,25 @@ super + {o,i}
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
+##
+## preselect
+##
 #
-# preselect
+## preselect the direction
+#super + ctrl + {h,j,k,l}
+#	bspc node -p {west,south,north,east}
 #
-
-# preselect the direction
-super + ctrl + {h,j,k,l}
-	bspc node -p {west,south,north,east}
-
-# preselect the ratio
-super + ctrl + {1-9}
-	bspc node -o 0.{1-9}
-
-# cancel the preselection for the focused node
-super + ctrl + space
-	bspc node -p cancel
-
-# cancel the preselection for the focused desktop
-super + ctrl + shift + space
-	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+## preselect the ratio
+#super + ctrl + {1-9}
+#	bspc node -o 0.{1-9}
+#
+## cancel the preselection for the focused node
+#super + ctrl + space
+#	bspc node -p cancel
+#
+## cancel the preselection for the focused desktop
+#super + ctrl + shift + space
+#	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 #
 # move/resize
@@ -117,5 +125,5 @@ super + alt + shift + {h,j,k,l}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window
-super + {Left,Down,Up,Right}
+super + ctrl + {h,j,k,l}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
