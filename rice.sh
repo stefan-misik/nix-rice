@@ -115,7 +115,9 @@ clear_temp ()
 }
 
 # Default values
-variant="base"
+[ -f "$HOME/.config/rice_variant" ] &&
+    variant="$(cat "$HOME/.config/rice_variant")" ||
+    variant="base"
 parent=""
 link=""
 action="get"
