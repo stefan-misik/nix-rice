@@ -109,16 +109,16 @@ label = %percentage_used:3:3%%
 
 [module/date]
 type = internal/date
-interval = 5
+interval = 1
 
 date =
-date-alt = " %y-%m-%d"
+date-alt = "%m/%d/%Y"
 
 time = "%H:%M"
-time-alt = "%H:%M"
+time-alt = "%H:%M:%S"
 
-format-prefix = ""
+format-prefix = " "
 format-underline = ${colors.darkgreen}
 
-label = %date% %time%
+label = %time% %date%
 
