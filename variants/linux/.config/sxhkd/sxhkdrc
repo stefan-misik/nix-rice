@@ -20,7 +20,7 @@ super + Escape
 
 # browser
 super + b
-	xdg-open https://duckduckgo.com/
+	firefox
 
 #
 # bspwm hotkeys
