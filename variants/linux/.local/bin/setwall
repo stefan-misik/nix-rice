@@ -1,0 +1,4 @@
+#!/bin/sh
+
+convert $1 -resize 1920x1080^ -gravity center -extent 1920x1080 ~/.config/wall.png
+xwallpaper --zoom ~/.config/wall.png
