@@ -19,6 +19,7 @@ print_help ()
     echo "              DEST to files in VARIANT"
     echo "  -d          Show diff of the files in the system to the specified"
     echo "              configuration variant to the"
+    echo "  -r          Update all patches in all configuration variants"
     echo "  -v          Verbose mode"
     echo ""
     echo "If no files are listed after the last switch, the command will try"
@@ -40,8 +41,7 @@ make_file ()
         cp -p "variants/$2/$3" "$1/$3"
     elif ls "variants/$2/$3."*.diff >/dev/null 2>&1
     then
-        make_file "$1" "$(ls "variants/$2/$3."*.diff | \
-             awk -F . '{print $(NF-1)}')" "$3"
+        make_file "$1" "$(parent_of_diff "$2" "$3")" "$3"
         patch -s "$1/$3" < "$(ls "variants/$2/$3."*.diff)"
     else
         echo "Configuration $3 not found in variant $2"
@@ -67,10 +67,48 @@ add_file ()
 add_diff ()
 {
     mkdir -p "$(dirname "variants/$2/$3")"
-    make_file "$temp_dir" "$4" "$3"
+    make_file "$temp_dir/primary" "$4" "$3"
     rm -f "variants/$2/$3."*.diff
-    diff -au --label "$4" --label "$2" \
-        "$temp_dir/$3" "$1/$3" > "variants/$2/$3.$4.diff"
+    store_diff "$temp_dir/primary/$3" "$1/$3" \
+        "$3" "$4" "$2"
+}
+
+## If provided file is a diff, update it
+# $1 Configuration variant of the file to be updated
+# $2 File to be updated
+# $3 (internal) Parent of the diff file
+rediff ()
+{
+    if [ -n "$3" ]
+    then
+        if [ ! -f "variants/$3/$2" ]
+        then
+            rediff "$3" "$2"
+        fi
+
+        # Make the two files which need to be diffed
+        make_file "$temp_dir/primary" "$1" "$2"
+        make_file "$temp_dir/secondary" "$3" "$2"
+
+        # Store the diff
+        store_diff "$temp_dir/secondary/$2" "$temp_dir/primary/$2" "$2" \
+            "$3" "$1"
+    elif [ ! -f "variants/$1/$2" ]
+    then
+        rediff "$1" "$2" "$(parent_of_diff "$1" "$2")"
+    fi
+}
+
+## Store the file diff
+# $1 Original file
+# $2 Modified file
+# $3 File name
+# $4 Parent variant
+# $5 Destination variant
+store_diff ()
+{
+    diff -au --label "$4" --label "$5" \
+        "$1" "$2" > "variants/$5/$3.$4.diff"
     true # Discard the exit status of 'diff' command
 }
 
@@ -108,6 +146,14 @@ ensure_variant_exists ()
     fi
 }
 
+## Output the parent of the diff file
+# $1 Configuration variant of the file to be updated
+# $2 File to be updated
+parent_of_diff ()
+{
+    ls "variants/$1/$2."*.diff | awk -F . '{print $(NF-1)}'
+}
+
 ## Clear the temporary directory
 clear_temp ()
 {
@@ -125,12 +171,13 @@ file_list=""
 verbose=""
 
 # Handle option arguments
-while getopts ":a :c: :d :h :l: :p: :v" OPT
+while getopts ":a :c: :d :h :l: :p: :r :v" OPT
 do
     case $OPT in
         a) action="add" ;;
         c) variant="$OPTARG" ;;
         d) action="diff" ;;
+        r) action="rediff" ;;
         h) action="help" ;;
         l) link="$OPTARG" ; action="link" ;;
         p) parent="$OPTARG" ;;
@@ -201,15 +248,27 @@ case $action in
         populate_file_list "$@"
         for file in $file_list
         do
-            make_file "$temp_dir" "$variant" "$file"
+            make_file "$temp_dir/primary" "$variant" "$file"
             if [ -f "$install_prefix/$file" ]
             then
                 git --no-pager -c color.ui=always diff --no-index \
-                    "$temp_dir/$file" "$install_prefix/$file"
+                    "$temp_dir/primary/$file" "$install_prefix/$file"
             else
                 git --no-pager -c color.ui=always diff --no-index \
-                    "$temp_dir/$file" /dev/null
+                    "$temp_dir/primary/$file" /dev/null
             fi
         done | less -RFX
+    ;;
+
+    rediff)
+        for variant in $(ls variants/)
+        do
+            populate_file_list
+            for file in $file_list
+            do
+                [ -z "$verbose" ] || echo "Trying to update $file from $variant"
+                rediff "$variant" "$file"
+            done
+        done
     ;;
 esac

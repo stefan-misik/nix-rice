@@ -26,6 +26,7 @@ Usage: ./rice.sh [-v] [-c VARIANT] [FILE1] [FILE2] ...
               DEST to files in VARIANT
   -d          Show diff of the files in the system to the specified
               configuration variant to the
+  -r          Update all patches in all configuration variants
   -v          Verbose mode
 
 If no files are listed after the last switch, the command will try
