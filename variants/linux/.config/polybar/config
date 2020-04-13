@@ -47,7 +47,7 @@ module-margin-left = 1
 module-margin-right = 1
 
 font-0 = mono:pixelsize=12;1
-font-1 = Inconsolata Nerd Font:size=12;1
+font-1 = FiraMono Nerd Font:size=12;1
 font-2 = Noto Color Emoji:scale=10:style=Regular;2
 
 modules-left = start bspwm
