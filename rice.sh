@@ -67,9 +67,9 @@ add_file ()
 add_diff ()
 {
     mkdir -p "$(dirname "variants/$2/$3")"
-    make_file "$temp_dir/primary" "$4" "$3"
+    make_file "$temp_dir/$4" "$4" "$3"
     rm -f "variants/$2/$3."*.diff
-    store_diff "$temp_dir/primary/$3" "$1/$3" \
+    store_diff "$temp_dir/$4/$3" "$1/$3" \
         "$3" "$4" "$2"
 }
 
@@ -87,11 +87,11 @@ rediff ()
         fi
 
         # Make the two files which need to be diffed
-        make_file "$temp_dir/primary" "$1" "$2"
-        make_file "$temp_dir/secondary" "$3" "$2"
+        make_file "$temp_dir/$1" "$1" "$2"
+        make_file "$temp_dir/$3" "$3" "$2"
 
         # Store the diff
-        store_diff "$temp_dir/secondary/$2" "$temp_dir/primary/$2" "$2" \
+        store_diff "$temp_dir/$3/$2" "$temp_dir/$1/$2" "$2" \
             "$3" "$1"
     elif [ ! -f "variants/$1/$2" ]
     then
@@ -248,14 +248,14 @@ case $action in
         populate_file_list "$@"
         for file in $file_list
         do
-            make_file "$temp_dir/primary" "$variant" "$file"
+            make_file "$temp_dir/$variant" "$variant" "$file"
             if [ -f "$install_prefix/$file" ]
             then
                 git --no-pager -c color.ui=always diff --no-index \
-                    "$temp_dir/primary/$file" "$install_prefix/$file"
+                    "$temp_dir/$variant/$file" "$install_prefix/$file"
             else
                 git --no-pager -c color.ui=always diff --no-index \
-                    "$temp_dir/primary/$file" /dev/null
+                    "$temp_dir/$variant/$file" /dev/null
             fi
         done | less -RFX
     ;;
