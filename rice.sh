@@ -43,6 +43,11 @@ make_file ()
     then
         make_file "$1" "$(parent_of_diff "$2" "$3")" "$3"
         patch -s "$1/$3" < "$(ls "variants/$2/$3."*.diff)"
+        if [ $? -ne 0 ]
+        then
+            echo "Failed to patch $3 from  variant $2"
+            exit 1
+        fi
     else
         echo "Configuration $3 not found in variant $2"
         exit 1
