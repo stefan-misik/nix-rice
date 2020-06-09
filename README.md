@@ -20,7 +20,9 @@ Usage: ./rice.sh [-v] [-c VARIANT] [FILE1] [FILE2] ...
    OR: ./rice.sh -h
 
   -h          Print this message
-  -c VARIANT  Specify configuration variant (default is 'base')
+  -c VARIANT  Specify configuration variant (default is 'base',
+              however it can be overridden by storing default rice
+              variant name in ~/.config/rice_variant)
   -a          Add the file into the rice
   -p PARENT   In combination with -a adds a difference of the
               file to the file in the configuration variant PARENT
