@@ -7,7 +7,9 @@ configurations I use. This script can do following:
 * Store and restore the configuration files
 * Store and restore diffs of configuration files relative to some other
   configuration variant
-* Show difference of the system files to the stored in configuration variant
+* Show difference of the system files to the files stored in configuration
+  variant
+* Rebuild all diffs, in case some change is done in source variant
 
 
 ## Usage
