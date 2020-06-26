@@ -23,3 +23,5 @@
   l  = log
   co = commit
   st = status
+[pull]
+	ff = only
