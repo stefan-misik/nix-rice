@@ -1,11 +1,13 @@
 [user]
-	email = stefan-misik@users.noreply.github.com
-	name = Stefan Misik
+    email = stefan-misik@users.noreply.github.com
+    name = Stefan Misik
+
 [core]
-	editor = vim
-	excludesfile = ~/.gitignore_global
+    editor = vim
+    excludesfile = ~/.gitignore_global
+
 [log]
-	decorate = auto
+    decorate = auto
 
 [color]
     ui = auto
@@ -28,4 +30,4 @@
     graph = log --graph --all
 
 [pull]
-	ff = only
+    ff = only
