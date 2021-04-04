@@ -16,5 +16,5 @@ sxiv
 xdg-user-dirs
 xdg-user-dirs-gtk
 polybar
-st
-compton-tryone-git
+picom-git
+alacritty

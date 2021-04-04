@@ -35,3 +35,18 @@
 *.color7:       #bdc3c7
 *.color15:      #e1e5e6
 
+
+! -- URxvt -- !
+URxvt.font: xft:mono:pixelsize=14
+urxvt.depth: 32
+URxvt.background: [80]#323232
+URxvt.intensityStyles: false
+URxvt.internalBorder: 2
+! Scrollbar
+URxvt.scrollBar: true
+URxvt.scrollBar_right: true
+URxvt.thickness: 5
+URxvt.scrollstyle: plain
+URxvt.scrollColor: #777777
+!URxvt.troughColor: #333333
+!URxvt.scrollBar_floating: false

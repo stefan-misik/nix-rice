@@ -4,7 +4,7 @@
 
 # terminal emulator
 super + Return
-	st
+	alacritty
 
 # program launcher
 super + @space
@@ -20,7 +20,7 @@ super + Escape
 
 # browser
 super + b
-	firefox
+	brave
 
 #
 # bspwm hotkeys
