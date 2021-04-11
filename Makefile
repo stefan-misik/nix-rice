@@ -24,8 +24,8 @@ $(CONFIG_FILE): $(MAKEFILE) | $(CONFIG_DIR)
 	@echo "# Repo containing the rice data" >> $@
 	@echo "repo=$(REPO)" >> $@
 
-$(INSTALL_TARGET): rice.sh | $(INSTALL_DIR)
-	cp $< $@
+$(INSTALL_TARGET): $(INSTALL_DIR)
+	ln -sf $(realpath rice.sh) $@
 
 $(INSTALL_DIR) $(CONFIG_DIR):
 	mkdir -p $@
