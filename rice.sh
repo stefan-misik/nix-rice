@@ -9,9 +9,11 @@ repo="."
 
 print_help ()
 {
-    echo "Usage: $self [-v] [-c VARIANT] [FILE1] [FILE2] ..."
-    echo "   OR: $self -a [-v] [-c VARIANT] [-p PARENT] [FILE1] [FILE2] ..."
-    echo "   OR: $self -h"
+    self_cmd="$(basename "$self")"
+    echo "Usage: $self_cmd [-v] [-c VARIANT] [FILE1] [FILE2] ..."
+    echo "   OR: $self_cmd -a [-v] [-c VARIANT] [-p PARENT] [FILE1] [FILE2] ..."
+    echo "   OR: $self_cmd -h"
+    echo "   OR: $self_cmd git GIT COMMANDS"
     echo ""
     echo "  -h          Print this message"
     echo "  -c VARIANT  Specify configuration variant (default is 'base',"
@@ -32,6 +34,10 @@ print_help ()
     echo ""
     echo "If -a switch is not specified, the files are installed from rice"
     echo "collection into the system."
+    echo ""
+    echo "This command will also allow to manipulate the repository with"
+    echo "the rice files through '$self_cmd git ...' that will pass the"
+    echo "'...' to the git as if it were executed inside the rice repository."
 }
 
 ## Make the specified file variant
@@ -181,6 +187,14 @@ link=""
 action="get"
 file_list=""
 verbose=""
+
+# First check whether rice repositary is to be modified
+if [ "$1" == "git" ]
+then
+    shift 1
+    git -C "$repo" $@
+    exit $?
+fi
 
 # Handle option arguments
 while getopts ":a :c: :d :h :l: :p: :r :v" OPT
