@@ -284,3 +284,5 @@ case $action in
         done
     ;;
 esac
+
+rm -rf "$temp_dir"
