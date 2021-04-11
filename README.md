@@ -15,14 +15,15 @@ configurations I use. This script can do following:
 ## Usage
 
 ```
-Usage: ./rice.sh [-v] [-c VARIANT] [FILE1] [FILE2] ...
-   OR: ./rice.sh -a [-v] [-c VARIANT] [-p PARENT] [FILE1] [FILE2] ...
-   OR: ./rice.sh -h
+Usage: rice [-v] [-c VARIANT] [FILE1] [FILE2] ...
+   OR: rice -a [-v] [-c VARIANT] [-p PARENT] [FILE1] [FILE2] ...
+   OR: rice -h
+   OR: rice git GIT COMMANDS
 
   -h          Print this message
   -c VARIANT  Specify configuration variant (default is 'base',
-              however it can be overridden by storing default rice
-              variant name in ~/.config/rice_variant)
+              however it can be overridden by configuration
+              stored in ~/.config/ricerc)
   -a          Add the file into the rice
   -p PARENT   In combination with -a adds a difference of the
               file to the file in the configuration variant PARENT
@@ -38,5 +39,9 @@ to do the operation on all files in specified configuration variant.
 
 If -a switch is not specified, the files are installed from rice
 collection into the system.
+
+This command will also allow to manipulate the repository with
+the rice files through 'rice git ...' that will pass the
+'...' to the git as if it were executed inside the rice repository.
 ```
 
