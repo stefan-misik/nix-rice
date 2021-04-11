@@ -2,7 +2,10 @@
 
 self="$0"
 install_prefix="$HOME"
-temp_dir="_temp"
+temp_dir="$(mktemp -d -t rice-XXXXX)"
+# Default settings
+variant="base"
+repo="."
 
 print_help ()
 {
@@ -12,8 +15,8 @@ print_help ()
     echo ""
     echo "  -h          Print this message"
     echo "  -c VARIANT  Specify configuration variant (default is 'base',"
-    echo "              however it can be overridden by storing default rice"
-    echo "              variant name in ~/.config/rice_variant)"
+    echo "              however it can be overridden by configuration"
+    echo "              stored in ~/.config/ricerc)"
     echo "  -a          Add the file into the rice"
     echo "  -p PARENT   In combination with -a adds a difference of the"
     echo "              file to the file in the configuration variant PARENT"
@@ -37,14 +40,14 @@ print_help ()
 # $3 File to make
 make_file ()
 {
-    if [ -f "variants/$2/$3" ]
+    if [ -f "$repo/variants/$2/$3" ]
     then
         mkdir -p "$(dirname "$1/$3")"
-        cp -p "variants/$2/$3" "$1/$3"
-    elif ls "variants/$2/$3."*.diff >/dev/null 2>&1
+        cp -p "$repo/variants/$2/$3" "$1/$3"
+    elif ls "$repo/variants/$2/$3."*.diff >/dev/null 2>&1
     then
         make_file "$1" "$(parent_of_diff "$2" "$3")" "$3"
-        patch -s "$1/$3" < "$(ls "variants/$2/$3."*.diff)"
+        patch -s "$1/$3" < "$(ls "$repo/variants/$2/$3."*.diff)"
         if [ $? -ne 0 ]
         then
             echo "Failed to patch $3 from  variant $2"
@@ -62,8 +65,8 @@ make_file ()
 # $3 File to add
 add_file ()
 {
-    mkdir -p "$(dirname "variants/$2/$3")"
-    cp -p "$1/$3" "variants/$2/$3"
+    mkdir -p "$(dirname "$repo/variants/$2/$3")"
+    cp -p "$1/$3" "$repo/variants/$2/$3"
 }
 
 ## Add file from the system into specified variant
@@ -73,9 +76,9 @@ add_file ()
 # $4 Parent configuration variant
 add_diff ()
 {
-    mkdir -p "$(dirname "variants/$2/$3")"
+    mkdir -p "$(dirname "$repo/variants/$2/$3")"
     make_file "$temp_dir/$4" "$4" "$3"
-    rm -f "variants/$2/$3."*.diff
+    rm -f "$repo/variants/$2/$3."*.diff
     store_diff "$temp_dir/$4/$3" "$1/$3" \
         "$3" "$4" "$2"
 }
@@ -88,7 +91,7 @@ rediff ()
 {
     if [ -n "$3" ]
     then
-        if [ ! -f "variants/$3/$2" ]
+        if [ ! -f "$repo/variants/$3/$2" ]
         then
             rediff "$3" "$2"
         fi
@@ -100,7 +103,7 @@ rediff ()
         # Store the diff
         store_diff "$temp_dir/$3/$2" "$temp_dir/$1/$2" "$2" \
             "$3" "$1"
-    elif [ ! -f "variants/$1/$2" ]
+    elif [ ! -f "$repo/variants/$1/$2" ]
     then
         rediff "$1" "$2" "$(parent_of_diff "$1" "$2")"
     fi
@@ -115,7 +118,7 @@ rediff ()
 store_diff ()
 {
     diff -au --label "$4" --label "$5" \
-        "$1" "$2" > "variants/$5/$3.$4.diff"
+        "$1" "$2" > "$repo/variants/$5/$3.$4.diff"
     true # Discard the exit status of 'diff' command
 }
 
@@ -128,13 +131,16 @@ populate_file_list ()
     then
         for file in "$@"
         do
-            file_list="${file_list:+${file_list}:}$file"
+            file="$(realpath "$file" | \
+                awk -F "$install_prefix/" '{print $2}')"
+            [ -n "$file" ] && file_list="${file_list:+${file_list}:}$file"
         done
     else
     IFS='
 '
-        for file in $(find "variants/$variant" -type f | \
-            sed "s/variants\/$variant\///;s/\.[^\.]*\.diff$//")
+        for file in $(find "$repo/variants/$variant" -type f | \
+            awk -F "$repo/variants/$variant/" '{print $2}' | \
+            sed "s/\.[^\.]*\.diff$//")
         do
             file_list="${file_list:+${file_list}:}$file"
         done
@@ -146,7 +152,7 @@ populate_file_list ()
 # $1 Name of the configuration variant
 ensure_variant_exists ()
 {
-    if [ ! -d "variants/$1" ]
+    if [ ! -d "$repo/variants/$1" ]
     then
         echo "Variant '$1' does not exist"
         exit 1
@@ -158,7 +164,7 @@ ensure_variant_exists ()
 # $2 File to be updated
 parent_of_diff ()
 {
-    ls "variants/$1/$2."*.diff | awk -F . '{print $(NF-1)}'
+    ls "$repo/variants/$1/$2."*.diff | awk -F . '{print $(NF-1)}'
 }
 
 ## Clear the temporary directory
@@ -168,9 +174,8 @@ clear_temp ()
 }
 
 # Default values
-[ -f "$HOME/.config/rice_variant" ] &&
-    variant="$(cat "$HOME/.config/rice_variant")" ||
-    variant="base"
+[ -f "$install_prefix/.config/ricerc" ] &&
+    source "$install_prefix/.config/ricerc"
 parent=""
 link=""
 action="get"
@@ -237,14 +242,14 @@ case $action in
         populate_file_list "$@"
         for file in $file_list
         do
-            if [ ! -f "variants/$link/$file" ]
+            if [ ! -f "$repo/variants/$link/$file" ]
             then
-                if ls "variants/$link/$file."*.diff >/dev/null 2>&1
+                if ls "$repo/variants/$link/$file."*.diff >/dev/null 2>&1
                 then
                     true
                 else
                     [ -z "$verbose" ] || echo "Adding diff $file"
-                    touch "variants/$link/$file.$variant.diff"
+                    touch "$repo/variants/$link/$file.$variant.diff"
                 fi
             fi
         done
@@ -268,7 +273,7 @@ case $action in
     ;;
 
     rediff)
-        for variant in $(ls variants/)
+        for variant in $(ls "$repo/variants/")
         do
             populate_file_list
             for file in $file_list
