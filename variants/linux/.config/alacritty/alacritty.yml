@@ -70,7 +70,7 @@ scrolling:
 font:
   normal:
     family: mono
-    style: Medium
+    style: Regular
   #bold:
     #family: JetBrains Mono
     #style:
