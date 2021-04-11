@@ -1,6 +1,6 @@
 --- base
 +++ cygwin
-@@ -36,8 +36,9 @@
+@@ -31,8 +31,9 @@
  alias ls='ls --color=auto'
  # Calendar alias
  alias cal='cal -m --week -3'

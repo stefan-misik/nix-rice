@@ -8,11 +8,6 @@
 # Activate VI mode
 set -o vi
 
-## ENVIRONMENT
-
-# Put ~/.local/bin in the PATH
-export PATH="$HOME/.local/bin:$PATH"
-
 
 ## PROMPT
 
@@ -42,6 +37,8 @@ alias open='open'
 
 ## EXPORTS
 
+# Put ~/.local/bin in the PATH
+export PATH="$HOME/.local/bin:$PATH"
 # Turn on CLI colors
 export CLICOLOR=1
 # Set the default editor
