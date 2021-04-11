@@ -1,6 +1,6 @@
 --- base
 +++ linux
-@@ -31,8 +31,8 @@
+@@ -36,8 +36,8 @@
  alias ls='ls --color=auto'
  # Calendar alias
  alias cal='cal -m --week -3'

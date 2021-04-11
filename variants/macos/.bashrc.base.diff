@@ -1,6 +1,6 @@
 --- base
 +++ macos
-@@ -28,7 +28,7 @@
+@@ -33,7 +33,7 @@
  ## ALIASES
  
  # Set colored LS output
@@ -9,7 +9,7 @@
  # Calendar alias
  alias cal='cal -m --week -3'
  # 'open' command
-@@ -41,6 +41,13 @@
+@@ -46,6 +46,13 @@
  export CLICOLOR=1
  # Set the default editor
  export EDITOR=vim

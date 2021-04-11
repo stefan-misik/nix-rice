@@ -8,6 +8,11 @@
 # Activate VI mode
 set -o vi
 
+## ENVIRONMENT
+
+# Put ~/.local/bin in the PATH
+export PATH="$HOME/.local/bin:$PATH"
+
 
 ## PROMPT
 
