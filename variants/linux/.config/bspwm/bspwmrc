@@ -17,6 +17,9 @@ bspc config split_ratio          0.52
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
+# Poll the pointer position every 5 ms
+bspc config pointer_motion_interval 5
+
 #bspc rule -a Gimp desktop='^4' state=floating follow=on
 #bspc rule -a Chromium desktop='^2'
 #bspc rule -a mplayer2 state=floating
