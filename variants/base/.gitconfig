@@ -1,33 +1,33 @@
 [user]
-    email = stefan-misik@users.noreply.github.com
-    name = Stefan Misik
+	email = stefan-misik@users.noreply.github.com
+	name = Stefan Misik
 
 [core]
-    editor = vim
-    excludesfile = ~/.gitignore_global
+	editor = vim
+	excludesfile = ~/.gitignore_global
 
 [log]
-    decorate = auto
+	decorate = auto
 
 [color]
-    ui = auto
+	ui = auto
 
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
 
 [color "status"]
-    added = green
-    changed = red
-    untracked = yellow
+	added = green
+	changed = red
+	untracked = yellow
 
 [alias]
-    l  = log
-    co = commit
-    st = status
-    graph = log --graph --all
+	l  = log
+	co = commit
+	st = status
+	graph = log --graph --all
 
 [pull]
-    ff = only
+	ff = only
