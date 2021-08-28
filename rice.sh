@@ -181,7 +181,7 @@ clear_temp ()
 
 # Default values
 [ -f "$install_prefix/.config/ricerc" ] &&
-    source "$install_prefix/.config/ricerc"
+    . "$install_prefix/.config/ricerc"
 parent=""
 link=""
 action="get"
@@ -189,7 +189,7 @@ file_list=""
 verbose=""
 
 # First check whether rice repositary is to be modified
-if [ "$1" == "git" ]
+if [ "$1" = "git" ]
 then
     shift 1
     git -C "$repo" $@
