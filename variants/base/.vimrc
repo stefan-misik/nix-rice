@@ -182,6 +182,6 @@ autocmd FileType c,cpp,php inoremap <expr> { col(".") == col("$") ? '{<CR>}<Esc>
 autocmd FileType gitcommit setlocal spell spelllang=en_us
 autocmd FileType gitcommit nnoremap <F2> :! GIT_PAGER="less -+FX" git diff --cached<CR><CR>
 autocmd FileType gitcommit nnoremap <F3> :! GIT_PAGER="less -+FX" git log<CR><CR>
-autocmd FileType gitcommit nnoremap <F4> :.-1r !git show -s --format="\%s" HEAD \| grep -oE "(\[[a-zA-Z0-9_]+\])+ ?" <CR>
+autocmd FileType gitcommit nnoremap <F4> :.-1r !git show -s --format="\%s" HEAD \| grep -oE '\w+(\(\w+\))?: ?' <CR>
 
 
