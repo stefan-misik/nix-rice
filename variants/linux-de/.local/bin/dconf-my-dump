@@ -1,0 +1,62 @@
+#!/bin/sh
+set -e
+
+# List of Dconf directories to be dumped
+dir_list=$(cat << LIST_END
+/org/gnome/desktop/app-folders/
+/org/gnome/desktop/input-sources/
+/org/gnome/desktop/interface/
+/org/gnome/desktop/media-handling/
+/org/gnome/desktop/peripherals/mouse/
+/org/gnome/desktop/peripherals/touchpad/
+/org/gnome/desktop/privacy/
+/org/gnome/desktop/search-providers/
+/org/gnome/desktop/session/
+/org/gnome/desktop/sound/
+/org/gnome/desktop/wm/keybindings/
+/org/gnome/desktop/wm/preferences/
+/org/gnome/mutter/
+/org/gnome/nautilus/preferences/
+/org/gnome/settings-daemon/plugins/media-keys/
+/system/locale/
+LIST_END
+)
+
+
+print_help ()
+{
+  echo "Usage: $0 "
+  echo "   OR: $0 -h"
+  echo ""
+  echo "  -h          Print this message"
+}
+
+# Handle option arguments
+while getopts ":h" OPT
+do
+  case $OPT in
+    h) print_help; exit 0 ;;
+    \?) echo "Invalid option: -$OPTARG" >&2; exit 1 ;;
+    :) echo "Option -$OPTARG requires an argument." >&2; exit 1 ;;
+  esac
+done
+
+shift $((OPTIND-1))
+
+
+dir_to_dump_section ()
+{
+  echo "$1" | tail -c +2 | head -c -2
+}
+
+# Do the dump
+echo "$dir_list" | 
+{
+  while read dir; do
+    dconf dump "$dir" | \
+      sed -e "s#^\[\([^]\/][^]]*\)\]#[$(dir_to_dump_section "$dir")/\1]#" \
+          -e "s#^\[\/\]#[$(dir_to_dump_section "$dir")]#"
+    echo ""
+  done
+}
+
