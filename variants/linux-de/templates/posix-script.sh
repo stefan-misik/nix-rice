@@ -19,3 +19,10 @@ do
   esac
 done
 
+# Handle positional arguments
+shift $((OPTIND-1))
+
+if [ "$1" = "clean" ]; then
+    echo "Cleaning up..."
+fi
+
