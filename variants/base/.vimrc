@@ -100,9 +100,6 @@ au BufNewFile,BufRead *.tikz set filetype=tex
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " GUI-specific setting
 if has('gui_running')
-	" Configure the font
-	set guifont=Lucida_Console:h10
-
 	" Remove the toolbar
 	set guioptions-=T
 	" Remove scroll bars
